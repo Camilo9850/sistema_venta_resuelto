@@ -178,6 +178,7 @@ $(document).ready( function () {
                     let resultado = "<option value='0' disabled selected>Seleccionar</option>";
                     respuesta.forEach(function(valor, indice){
                         resultado += `<option value="${valor.idlocalidad}">${valor.nombre}</option>`;
+                        //resultado += "<option value="+valor.idlocalidad+">"+valor.nombre+"</option>";
                     });
                   $("#lstLocalidad").empty().append(resultado);
                 }

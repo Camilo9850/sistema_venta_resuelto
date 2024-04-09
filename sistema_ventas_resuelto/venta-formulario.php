@@ -45,6 +45,7 @@ if(isset($_GET["do"]) && $_GET["do"] == "buscarProducto"){
     $producto->obtenerPorId();
     $aResultado["precio"] = $producto->precio;
     $aResultado["cantidad"] = $producto->cantidad;
+    header('Content-Type: application/json');
     echo json_encode($aResultado);
     exit;
 }
@@ -151,7 +152,7 @@ include_once("header.php");
                 </div>
                 <div class="col-6 form-group">
                     <label for="txtCantidad">Cantidad:</label>
-                    <input type="text" class="form-control" name="txtCantidad" id="txtCantidad" value="<?php echo $venta->cantidad; ?>" onchange="fCalcularTotal();">
+                    <input type="number" class="form-control" name="txtCantidad" id="txtCantidad" value="<?php echo $venta->cantidad; ?>" onchange="fCalcularTotal();">
                     <span id="msgStock" class="text-danger" style="display:none;">No hay stock suficiente</span>
                 </div>
                 <div class="col-6 form-group">
@@ -185,9 +186,9 @@ function fBuscarPrecio(){
 }
 
 function fCalcularTotal(){
-    var idProducto = $("#lstProducto option:selected").val();
-    var cantidad = parseInt($('#txtCantidad').val());
-
+    let idProducto = $("#lstProducto option:selected").val();
+    let total = 0;
+    let cantidad = $("#txtCantidad").val();
      $.ajax({
         type: "GET",
         url: "venta-formulario.php?do=buscarProducto",
@@ -195,14 +196,13 @@ function fCalcularTotal(){
         async: true,
         dataType: "json",
         success: function (respuesta) {
-            let resultado = 0;
-            if(cantidad <= parseInt(respuesta.cantidad)){
-                resultado = respuesta.precio * cantidad;
-                 $("#msgStock").hide();
+            if(respuesta.cantidad >= cantidad){
+                $("#msgStock").hide();
+                total = respuesta.precio * cantidad;
             } else {
                 $("#msgStock").show();
             }
-            strResultado = Intl.NumberFormat("es-AR", {style: 'currency', currency: 'ARS'}).format(resultado);
+             let strResultado = Intl.NumberFormat("es-AR", {style: 'currency', currency: 'ARS'}).format(total); 
             $("#txtTotal").val(strResultado);
         }
     });   

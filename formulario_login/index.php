@@ -38,11 +38,11 @@ if($_POST){
         </div>
         <div class="row">
             <div class="col-12"> 
-           <?php if(isset($error)): ?>
+           <?php if(isset($error)){ ?>
                 <div class="alert alert-danger" role="alert">
                     <?php echo $error; ?>
                 </div>
-            <?php endif; ?>
+            <?php } ?>
                 <form method="POST" action="">
                     <div class="my-3">
                         <label for="">Usuario: <input type="text" id="txtUsuario" name="txtUsuario" class="form-control"></label>

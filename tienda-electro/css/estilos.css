@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+html {
+    scroll-behavior: smooth;
+}
+body{
+    font-family: "Montserrat", sans-serif;
+    margin: 0px;
+}
+h1{
+    font-size: 36px;
+    color: #E40F0F;
+    text-align: center;
+}
+h2{
+    font-size: 24px;
+    color: gray;
+}
+h3{
+    color: red;
+    text-decoration: underline;
+}
+#inicio p{
+    font-style: italic;
+}
+p{
+    font-size: 16px;
+}
+.texto-destacado{
+    font-weight: 600;
+}
+.verde{
+    font-weight: bold;
+    color: green;
+}
+input:focus, textarea:focus {
+    background-color: yellow;
+}
+nav{
+    display: block;
+    background-color: red;
+    text-align: center;
+}
+nav ul{
+    list-style-type: none;
+    margin: 0px;
+    padding: 14px 0px;
+}
+nav li{
+    display: inline;
+}
+nav a{
+    text-decoration: none;
+    color: white;
+    padding: 0px 50px;
+}
+nav a:hover{
+    text-decoration: underline;
+}
+main{
+    margin: 20px 10%;
+}
+.producto{
+    background-color: #eee;
+    width: 285px;
+    display: inline-block;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px;
+}
+.producto img{
+    margin: auto;
+    display: block;
+    height: 150px;
+}
+.video{
+    background-color: #eee;
+    border-radius: 8px;
+    padding: 20px;
+    
+}
+.video iframe{
+    width: 560px;
+    height: 315px;
+}
+form {
+    width: 600px;
+    margin: auto;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px;
+}
+input[type=text], input[type=email], input[type=tel], input[type=date],select, textarea{
+    border: 1px solid #E40F0F;
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    height: 20px;
+}
+input[type=date],select{
+    height: 25px;
+}
+textarea{
+    height: 200px;
+}
+.form-control{
+    margin-bottom: 10px;
+}
+button{
+    background-color: #E40F0F;
+    color: white;
+    padding: 10px 20px;
+    border: 1px solid #E40F0F;
+}
+button:hover {
+    background-color: white;
+    color: #E40F0F;
+}
+footer{
+    text-align: center;
+}
+footer a{
+    font-size: 36px;
+    color: #E40F0F;
+    text-decoration: none;
+    border: #E40F0F 1px solid;
+    margin: 12px;
+    border-radius: 50%;
+}
+footer .whatsapp, footer .linkedin{
+    padding: 10px 7px 10px 17px;
+}
+footer .youtube{
+    padding: 10px 11px 10px 13px;  
+}
+footer .flecha{
+    color: gray;
+    padding: 10px 11px 10px 13px;
+    border: none;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+@media (max-width: 460px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+    .video{
+        width: 275px;
+        margin-left: 10px;
+    }
+    .video iframe {
+        width: 100%;
+        height: 200px;
+        
+    }
+}
