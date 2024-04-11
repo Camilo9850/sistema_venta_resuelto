@@ -6,47 +6,42 @@ error_reporting(E_ALL);
 
 session_start();
 
-if(isset($_SESSION["listadoClientes"])){
-    //Si existe la variable de session listadoClientes asigno su contenido a aClientes
+if (isset($_SESSION["listadoClientes"])) {
     $aClientes = $_SESSION["listadoClientes"];
 } else {
     $aClientes = array();
 }
 
-//Pregunta si es postback sea para enviar o eliminar todos
-if($_POST){
-    //Si hace click en Enviar entonces:
-    if(isset($_POST["btnEnviar"])){
-        //Asignamos en variables los datos que vienen del formulario
+if ($_POST) {
+    if (isset($_POST["btnEnviar"])) {
+        //Capturamos los datos del formulario y lo almacenamos
         $nombre = $_POST["txtNombre"];
         $dni = $_POST["txtDni"];
         $telefono = $_POST["txtTelefono"];
         $edad = $_POST["txtEdad"];
 
-        //Creamos un array que contendrá el listado de clientes
-        $aClientes[] = array("nombre" => $nombre, 
-                            "dni" => $dni,
-                            "telefono" => $telefono,
-                            "edad" => $edad
+        //Agregamos los datos del cliente en la primera posición vacía
+        $aClientes[] = array(
+            "nombre" => $nombre,
+            "dni" => $dni,
+            "telefono" => $telefono,
+            "edad" => $edad,
         );
-        //Actualiza el contenido de variable de session
+        //Para que persista el cliente actualizamos la variable de session
         $_SESSION["listadoClientes"] = $aClientes;
-    }
-    //Si hace click en Eliminar
-    if(isset($_POST["btnEliminar"])){
+    } else {
         session_destroy();
         $aClientes = array();
     }
 }
-//Pregunta si viene pos en la query string
-if(isset($_GET["pos"])){
-    //Recupero el dato que viene desde la query string vía get
+
+if (isset($_GET["pos"]) && $_GET["pos"] >= 0) {
     $pos = $_GET["pos"];
-    //Elimina la posición del array indicada
+    //Eliminar del array aClientes la posición seleccionada
     unset($aClientes[$pos]);
-    //Actualizo la variable de session con el array actualizado
+    //Actualizar la variable de session con el aClientes actualizado
     $_SESSION["listadoClientes"] = $aClientes;
-    header("Location: clientes_session.php");
+    header("Location: prueba.php");
 }
 
 ?>
@@ -72,20 +67,22 @@ if(isset($_GET["pos"])){
         </div>
         <div class="row">
             <div class="col-3 offset-1 me-5">
-                <form action="" method="POST" class="form">
+                <form action="" method="POST" class="form d-inline">
                     <label for="txtNombre"> Nombre:</label>
-                    <input type="text" name="txtNombre" class="form-control my-2 " placeholder="Ingrese el nombre y apellido">
+                    <input type="text" name="txtNombre" required class="form-control my-2 " placeholder="Ingrese el nombre y apellido">
 
                     <label for="txtDni">DNI:</label>
-                    <input type="text" name="txtDni" class="form-control my-2">
+                    <input type="text" name="txtDni" required class="form-control my-2">
 
                     <label for="txtTelefono">Telefono:</label>
-                    <input type="tel" name="txtTelefono" class="form-control my-2" >
+                    <input type="tel" name="txtTelefono" class="form-control my-2">
 
                     <label for="txtEdad">Edad:</label>
-                    <input type="text" name="txtEdad" class="form-control my-2" >
+                    <input type="text" name="txtEdad" class="form-control my-2">
 
                     <button type="submit" name="btnEnviar" class="btn bg-primary text-white">Enviar</button>
+                </form>
+                <form action="" method="POST" class="d-inline">
                     <button type="submit" name="btnEliminar" class="btn bg-danger text-white">Eliminar</button>
                 </form>
             </div>
@@ -99,16 +96,15 @@ if(isset($_GET["pos"])){
                         <th>Acciones</th>
                     </thead>
                     <tbody>
-                        <?php foreach ($aClientes as $pos => $cliente): ?>
+                        <?php foreach ($aClientes as $pos => $cliente) { ?>
                             <tr>
                                 <td><?php echo $cliente["nombre"]; ?></td>
                                 <td><?php echo $cliente["dni"]; ?></td>
                                 <td><?php echo $cliente["telefono"]; ?></td>
                                 <td><?php echo $cliente["edad"]; ?></td>
-                                <td><a href="clientes_session.php?pos=<?php echo $pos; ?>"><i class="bi bi-trash"></i></a></td>
+                                <td><a href="?pos=<?php echo $pos; ?>">Eliminar</a></td>
                             </tr>
-                        <?php endforeach; ?>
-
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
