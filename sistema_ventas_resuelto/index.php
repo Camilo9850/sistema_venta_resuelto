@@ -2,6 +2,7 @@
 
 include_once "config.php";
 include_once "entidades/venta.php";
+include_once("header.php"); 
 $pg = "Inicio";
 
 $venta = new Venta();
@@ -12,7 +13,7 @@ $date = new DateTime($fechaHasta);
 $fechaDesde = date_format($date->modify("-12 months"), "Y-m-d");
 $facturacionAnual = $venta->obtenerFacturacionPorPeriodo($fechaDesde, $fechaHasta);
 
-include_once("header.php"); 
+
 
 ?>
 

@@ -45,7 +45,7 @@
                 Sponsor <a href="https://depcsuite.com">DePC Suite</a>
             </div>
             <div class="col-sm-3 col-12">
-                <a href="mailto:info@nelsontarche.com.ar">info@nelsontarche.com.ar</a>
+                <a href="mailto:info@camilorincon9850@gmail.com">info@nelsontarche.com.ar</a>
             </div>
         </div>
         <a href="https://api.whatsapp.com/send?phone=+541162442898" target="_blank"><i class="fa-brands fa-whatsapp px-3 pt-3 pb-4"></i></a>

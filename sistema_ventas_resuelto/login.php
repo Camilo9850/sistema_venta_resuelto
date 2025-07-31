@@ -1,30 +1,32 @@
 <?php
+session_start(); // ¡ESTA LÍNEA ES CRÍTICA Y DEBE SER LA PRIMERA!
+
 include_once "config.php";
 include_once "entidades/usuario.php";
 
 if($_POST){
-	//Comprobamos que el usuario sea admin y la clave sea admin123
-	$usuario = trim($_POST["txtUsuario"]); //trim elimina espacios de los laterales
-	$clave = trim($_POST["txtClave"]);
+    $usuario = trim($_POST["txtUsuario"]);
+    $clave = trim($_POST["txtClave"]);
 
-  //Buscamos en la BBDD si existe el usuario que ingresó la persona
-  $entidadUsuario = new Usuario();
-  $entidadUsuario->obtenerPorUsuario($usuario); //a desarrollar
-  
+    $entidadUsuario = new Usuario();
+    $entidadUsuario->obtenerPorUsuario($usuario);
 
-	//Si es correcto creamos una variable de session llamada nombre y tenga el valor "Ana Valle"
-	if($entidadUsuario->nombre != "" && $entidadUsuario->verificarClave($clave, $entidadUsuario->clave)){
-		$_SESSION["nombre"] = $entidadUsuario->nombre;
-
-		//Redireccionamos a la home
-		header("location:index.php");
-	} else {
-		//Si no es correcto la clave o el usuario mostrar en pantalla "Usuario o clave incorrecto"
-		$msg = "Usuario o clave incorrecto";
-	}
+    if($entidadUsuario->nombre != "" && $entidadUsuario->verificarClave($clave, $entidadUsuario->clave)){
+        $_SESSION["nombre"] = $entidadUsuario->nombre; // Ahora se guardará correctamente
+        header("location:index.php");
+        exit(); // Detiene el script inmediatamente después de redirigir
+    } else {
+        $msg = "Usuario o clave incorrecto";
+    }
 }
+// ... el resto de tu HTML ...
+?>
 
 ?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -36,7 +38,7 @@ if($_POST){
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Login</title>
+  <title> Login</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

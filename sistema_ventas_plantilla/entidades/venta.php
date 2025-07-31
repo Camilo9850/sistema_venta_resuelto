@@ -233,22 +233,36 @@ class Venta {
         return $sumarizacion;
     }
 
-    public function obtenerFacturacionPorPeriodo($fechaDesde, $fechaHasta){
-        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "SELECT SUM(total) AS sumarizacion FROM ventas WHERE fecha >= '$fechaDesde' AND fecha <= '$fechaHasta 23:59:59';";
+ public function obtenerFacturacionPorPeriodo($fechaDesde, $fechaHasta) {
+    $mysqli = new mysqli(
+        Config::BBDD_HOST,
+        Config::BBDD_USUARIO,
+        Config::BBDD_CLAVE,
+        Config::BBDD_NOMBRE,
+        Config::BBDD_PORT
+    );
 
-        if (!$resultado = $mysqli->query($sql)) {
-            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
-        }
-        $sumarizacion = 0;
-        //Convierte el resultado en un array asociativo
-        if ($fila = $resultado->fetch_assoc()) {
-            $sumarizacion = $fila["sumarizacion"] > 0 ? $fila["sumarizacion"] : 0;
-
-        }
-        $mysqli->close();
-        return $sumarizacion;
+    if ($mysqli->connect_error) {
+        die("Fallo en la conexión: " . $mysqli->connect_error);
     }
+
+    $fechaHasta .= ' 23:59:59';
+
+    $stmt = $mysqli->prepare("SELECT SUM(total) AS sumarizacion FROM ventas WHERE fecha >= ? AND fecha <= ?");
+    $stmt->bind_param("ss", $fechaDesde, $fechaHasta);
+
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    $sumarizacion = 0;
+    if ($fila = $resultado->fetch_assoc()) {
+        $sumarizacion = $fila["sumarizacion"] > 0 ? $fila["sumarizacion"] : 0;
+    }
+
+    $stmt->close();
+    $mysqli->close();
+
+    return $sumarizacion;
 }
 
 

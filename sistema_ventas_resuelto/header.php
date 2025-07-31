@@ -1,15 +1,31 @@
 <?php
-if(!isset($_SESSION["nombre"])){
-    header("location:login.php");
+// ¡IMPORTANTE! session_start() debe ser la primera línea PHP activa
+session_start();
+
+// Validar si la variable de sesión 'nombre' está definida.
+// Si no lo está, redirige al login.
+if(!isset($_SESSION["nombre"])) {
+   header("location:login.php");
+   exit(); // ¡ESENCIAL! Detiene la ejecución del script si no hay sesión
 }
 
+// Lógica para cerrar la sesión si se presiona el botón 'btnCerrar'
 if($_POST){
-    if(isset($_POST["btnCerrar"])){ /* Analizamos si es la accion del boton cerrar */
-        session_destroy();
-        header("location:login.php");
-    }
+   if(isset($_POST["btnCerrar"])){
+     session_destroy();
+     header("location:login.php");
+     exit(); // ¡ESENCIAL! Detiene la ejecución del script
+   }
 }
+
+// Si $pg no está definida en la página que incluye este header, usa un valor por defecto
+// Puedes borrar esto si $pg siempre se define antes de incluir header.php
+// if (!isset($pg)) {
+//     $pg = "Dashboard";
+// }
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -81,7 +97,7 @@ if($_POST){
               <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
                 <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['nombre']; ?></span>
                 </button>
               </div>
             </div>
@@ -90,14 +106,13 @@ if($_POST){
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
      
-
-            <div class="topbar-divider d-none d-sm-block"></div>
+ <div class="topbar-divider d-none d-sm-block"></div>
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['nombre']; ?></span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                <img class="img-profile rounded-circle" src="img/undraw_posting_photo.svg">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

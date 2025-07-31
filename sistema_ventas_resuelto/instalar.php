@@ -8,7 +8,7 @@ $usuario->usuario = "ntarche";
 $usuario->clave = $usuario->encriptarClave("admin123");
 $usuario->nombre = "Nelson Daniel";
 $usuario->apellido = "Tarche";
-$usuario->correo = "nelson.tarche@gmail.com";
+$usuario->correo = "camilorincon9850@gmail.com";
 $usuario->insertar();
 echo "Usuario insertado.";
 ?>

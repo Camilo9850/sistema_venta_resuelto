@@ -21,7 +21,7 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="float-sm-end">
-                            <a class="btn btn-rojo" href="contacto.html">Descargar mi CV <i
+                            <a class="btn btn-rojo" href="images/Hoja de vida 2025  25.pdf">Descargar mi CV <i
                                     class="fa-solid fa-download"></i></a>
                         </li>
                     </ul>
