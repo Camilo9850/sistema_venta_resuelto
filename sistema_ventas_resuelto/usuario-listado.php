@@ -52,7 +52,7 @@ include_once "header.php";
                       </a>
                   </td>
                   <td style="width: 150px;">
-                      <a href="/mi_proyecto/php-1/sistema_ventas_resuelto/test_urls_edicion.php" 
+                      <a href="/mi_proyecto/php-1/sistema_ventas_resuelto/usuario-formulario.php?id=<?php echo $usuario->idusuario; ?>" 
                          class="btn btn-sm btn-outline-primary mr-1" title="Editar usuario">
                          <i class="fas fa-edit"></i>
                       </a>
