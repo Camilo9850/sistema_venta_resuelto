@@ -4,7 +4,7 @@
 include_once "config.php";
 include_once "entidades/usuario.php";
 
-$pg = "Edición de usuario";
+$pg = "Gestión de Usuario";
 
 // Debug: Mostrar información de la URL si hay parámetros de debug
 if (isset($_GET['debug']) || isset($_REQUEST['debug'])) {
