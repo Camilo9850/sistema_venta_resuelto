@@ -26,7 +26,6 @@ include_once "header.php";
           <div class="row">
                 <div class="col-12 mb-3">
                     <a href="/mi_proyecto/php-1/sistema_ventas_resuelto/usuario-formulario.php" class="btn btn-primary mr-2">➕ Nuevo Usuario</a>
-                    <a href="/mi_proyecto/php-1/sistema_ventas_resuelto/test_urls_edicion.php" class="btn btn-info mr-2">🔍 Test URLs</a>
                     <span class="text-muted">Total de usuarios: <?php echo count($aUsuarios); ?></span>
                 </div>
             </div>

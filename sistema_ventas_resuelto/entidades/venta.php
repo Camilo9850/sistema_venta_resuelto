@@ -306,6 +306,37 @@ class Venta {
         return $sumarizacion;
     }
 
+    public function obtenerGananciasPorProducto(){
+        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        
+        $sql = "SELECT 
+                    p.nombre as producto,
+                    SUM(v.total) as ganancia,
+                    SUM(v.cantidad) as cantidad_vendida
+                FROM ventas v 
+                INNER JOIN productos p ON v.fk_idproducto = p.idproducto 
+                GROUP BY v.fk_idproducto, p.nombre 
+                ORDER BY ganancia DESC 
+                LIMIT 5";
+
+        if (!$resultado = $mysqli->query($sql)) {
+            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+            return [];
+        }
+        
+        $ganancias = [];
+        while ($fila = $resultado->fetch_assoc()) {
+            $ganancias[] = [
+                'producto' => $fila['producto'],
+                'ganancia' => floatval($fila['ganancia']),
+                'cantidad' => intval($fila['cantidad_vendida'])
+            ];
+        }
+        
+        $mysqli->close();
+        return $ganancias;
+    }
+
     public function obtenerFacturacionTotal(){
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $sql = "SELECT SUM(total) AS sumarizacion FROM ventas;";
