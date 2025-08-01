@@ -74,61 +74,36 @@ include_once("header.php");
                     <input type="text" required class="form-control" name="txtNombre" id="txtNombre" value="<?php echo $cliente->nombre ?>">
                 </div>
                 <div class="col-6 form-group">
-                    <label for="txtCuit">CUIT:</label>
-                    <input type="text" required class="form-control" name="txtCuit" id="txtCuit" value="<?php echo $cliente->cuit ?>" maxlength="11">
+                    <label for="txtApellido">Apellido:</label>
+                    <input type="text" required class="form-control" name="txtApellido" id="txtApellido" value="<?php echo $cliente->apellido ?>">
                 </div>
                 <div class="col-6 form-group">
-                    <label for="txtCorreo">Correo:</label>
-                    <input type="" class="form-control" name="txtCorreo" id="txtCorreo" required value="<?php echo $cliente->correo ?>">
+                    <label for="txtDocumento">Documento:</label>
+                    <input type="text" required class="form-control" name="txtDocumento" id="txtDocumento" value="<?php echo $cliente->documento ?>" maxlength="20">
+                </div>
+                <div class="col-6 form-group">
+                    <label for="txtEmail">Email:</label>
+                    <input type="email" class="form-control" name="txtEmail" id="txtEmail" value="<?php echo $cliente->email ?>">
                 </div>
                 <div class="col-6 form-group">
                     <label for="txtTelefono">Teléfono:</label>
-                    <input type="number" class="form-control" name="txtTelefono" id="txtTelefono" value="<?php echo $cliente->telefono ?>">
+                    <input type="text" class="form-control" name="txtTelefono" id="txtTelefono" value="<?php echo $cliente->telefono ?>">
                 </div>
-                <div class="col-6 form-group">
-                    <label for="txtFechaNac" class="d-block">Fecha de nacimiento:</label>
-                    <select class="form-control d-inline"  name="txtDiaNac" id="txtDiaNac" style="width: 80px">
-                        <option selected="" disabled="">DD</option>
-                        <?php for($i=1; $i <= 31; $i++): ?>
-                            <?php if($cliente->fecha_nac != "" && $i == date_format(date_create($cliente->fecha_nac), "d")): ?>
-                            <option selected><?php echo $i; ?></option>
-                            <?php else: ?>
-                            <option><?php echo $i; ?></option>
-                            <?php endif; ?>
-                        <?php endfor; ?>
-                    </select>
-                    <select class="form-control d-inline"  name="txtMesNac" id="txtMesNac" style="width: 80px">
-                        <option selected="" disabled="">MM</option>
-                        <?php for($i=1; $i <= 12; $i++): ?>
-                            <?php if($cliente->fecha_nac != "" && $i == date_format(date_create($cliente->fecha_nac), "m")): ?>
-                            <option selected><?php echo $i; ?></option>
-                            <?php else: ?>
-                            <option><?php echo $i; ?></option>
-                            <?php endif; ?>
-                        <?php endfor; ?>
-                    </select>
-                    <select class="form-control d-inline"  name="txtAnioNac" id="txtAnioNac" style="width: 100px">
-                        <option selected="" disabled="">YYYY</option>
-                        <?php for($i=1900; $i <= date("Y"); $i++): ?>
-                         <?php if($cliente->fecha_nac != "" && $i == date_format(date_create($cliente->fecha_nac), "Y")): ?>
-                            <option selected><?php echo $i; ?></option>
-                            <?php else: ?>
-                            <option><?php echo $i; ?></option>
-                            <?php endif; ?>
-                        <?php endfor; ?> ?>
-                    </select>
+                <div class="col-12 form-group">
+                    <label for="txtDireccion">Dirección:</label>
+                    <textarea class="form-control" name="txtDireccion" id="txtDireccion" rows="3"><?php echo $cliente->direccion ?></textarea>
                 </div>
             </div>
             <div class="row">
             <div class="col-12">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <i class="fa fa-table"></i> Domicilios
+                        <i class="fa fa-map-marker"></i> Ubicación
                     </div>
                     <div class="row panel-body p-3">
                         <div class="col-6 form-group">
-                            <label for="txtTelefono">Provincia:</label>
-                            <select class="form-control" name="lstProvincia" id="lstProvincia" onchange="fBuscarLocalidad()" required>
+                            <label for="lstProvincia">Provincia:</label>
+                            <select class="form-control" name="lstProvincia" id="lstProvincia" onchange="fBuscarLocalidad()">
                                 <option value="" disabled selected>Seleccionar</option>
                                 <?php foreach($aProvincias as $provincia): ?>
                                     <?php if($cliente->fk_idprovincia == $provincia->idprovincia): ?>
@@ -147,11 +122,18 @@ include_once("header.php");
                             </select>
                         </div>
                         <div class="col-12 form-group">
-                            <label for="txtTelefono">Dirección:</label>
-                            <input type="text" class="form-control" name="txtDomicilio" id="txtDomicilio" value="<?php echo $cliente->domicilio ?>">
+                            <label for="txtDireccion">Dirección:</label>
+                            <input type="text" class="form-control" name="txtDireccion" id="txtDireccion" value="<?php echo $cliente->direccion ?>">
                         </div>
                     </div>
-                </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary" name="btnGuardar">Guardar</button>
+                            <a href="cliente-listado.php" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
             </div>
             </div>
 

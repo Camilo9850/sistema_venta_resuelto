@@ -4,13 +4,13 @@ class Cliente
 {
     private $idcliente;
     private $nombre;
-    private $cuit;
+    private $apellido;
+    private $documento;
+    private $email;
     private $telefono;
-    private $correo;
-    private $fecha_nac;
+    private $direccion;
     private $fk_idprovincia;
     private $fk_idlocalidad;
-    private $domicilio;
 
     public function __construct()
     {
@@ -32,15 +32,13 @@ class Cliente
     {
         $this->idcliente = isset($request["id"]) ? $request["id"] : "";
         $this->nombre = isset($request["txtNombre"]) ? $request["txtNombre"] : "";
-        $this->cuit = isset($request["txtCuit"]) ? $request["txtCuit"] : "";
+        $this->apellido = isset($request["txtApellido"]) ? $request["txtApellido"] : "";
+        $this->documento = isset($request["txtDocumento"]) ? $request["txtDocumento"] : "";
+        $this->email = isset($request["txtEmail"]) ? $request["txtEmail"] : "";
         $this->telefono = isset($request["txtTelefono"]) ? $request["txtTelefono"] : "";
-        $this->correo = isset($request["txtCorreo"]) ? $request["txtCorreo"] : "";
+        $this->direccion = isset($request["txtDireccion"]) ? $request["txtDireccion"] : "";
         $this->fk_idprovincia = isset($request["lstProvincia"]) ? $request["lstProvincia"] : "";
         $this->fk_idlocalidad = isset($request["lstLocalidad"]) ? $request["lstLocalidad"] : "";
-        $this->domicilio = isset($request["txtDomicilio"]) ? $request["txtDomicilio"] : "";
-        if (isset($request["txtAnioNac"]) && isset($request["txtMesNac"]) && isset($request["txtDiaNac"])) {
-            $this->fecha_nac = $request["txtAnioNac"] . "-" . $request["txtMesNac"] . "-" . $request["txtDiaNac"];
-        }
     }
 
     public function insertar()
@@ -50,22 +48,22 @@ class Cliente
         //Arma la query
         $sql = "INSERT INTO clientes (
                     nombre,
-                    cuit,
+                    apellido,
+                    documento,
+                    email,
                     telefono,
-                    correo,
-                    fecha_nac,
+                    direccion,
                     fk_idprovincia,
-                    fk_idlocalidad,
-                    domicilio
+                    fk_idlocalidad
                 ) VALUES (
                     '$this->nombre',
-                    '$this->cuit',
+                    '$this->apellido',
+                    '$this->documento',
+                    '$this->email',
                     '$this->telefono',
-                    '$this->correo',
-                    '$this->fecha_nac',
+                    '$this->direccion',
                     $this->fk_idprovincia,
-                    $this->fk_idlocalidad,
-                    '$this->domicilio'
+                    $this->fk_idlocalidad
                 );";
         // print_r($sql);exit;
         //Ejecuta la query
@@ -84,13 +82,13 @@ class Cliente
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $sql = "UPDATE clientes SET
                 nombre = '" . $this->nombre . "',
-                cuit = '" . $this->cuit . "',
+                apellido = '" . $this->apellido . "',
+                documento = '" . $this->documento . "',
+                email = '" . $this->email . "',
                 telefono = '" . $this->telefono . "',
-                correo = '" . $this->correo . "',
-                fecha_nac =  '" . $this->fecha_nac . "',
-                fk_idprovincia =  '" . $this->fk_idprovincia . "',
-                fk_idlocalidad =  '" . $this->fk_idlocalidad . "',
-                domicilio =  '" . $this->domicilio . "'
+                direccion = '" . $this->direccion . "',
+                fk_idprovincia = '" . $this->fk_idprovincia . "',
+                fk_idlocalidad = '" . $this->fk_idlocalidad . "'
                 WHERE idcliente = " . $this->idcliente;
 
         if (!$mysqli->query($sql)) {
@@ -115,13 +113,13 @@ class Cliente
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $sql = "SELECT idcliente,
                         nombre,
-                        cuit,
+                        apellido,
+                        documento,
+                        email,
                         telefono,
-                        correo,
-                        fecha_nac,
+                        direccion,
                         fk_idprovincia,
-                        fk_idlocalidad,
-                        domicilio
+                        fk_idlocalidad
                 FROM clientes
                 WHERE idcliente = $this->idcliente";
         if (!$resultado = $mysqli->query($sql)) {
@@ -132,13 +130,13 @@ class Cliente
         if ($fila = $resultado->fetch_assoc()) {
             $this->idcliente = $fila["idcliente"];
             $this->nombre = $fila["nombre"];
-            $this->cuit = $fila["cuit"];
+            $this->apellido = $fila["apellido"];
+            $this->documento = $fila["documento"];
+            $this->email = $fila["email"];
             $this->telefono = $fila["telefono"];
-            $this->correo = $fila["correo"];
-            $this->fecha_nac = $fila["fecha_nac"];
+            $this->direccion = $fila["direccion"];
             $this->fk_idprovincia = $fila["fk_idprovincia"];
             $this->fk_idlocalidad = $fila["fk_idlocalidad"];
-            $this->domicilio = $fila["domicilio"];
         }
         $mysqli->close();
 
@@ -149,13 +147,13 @@ class Cliente
         $sql = "SELECT 
                     idcliente,
                     nombre,
-                    cuit,
+                    apellido,
+                    documento,
+                    email,
                     telefono,
-                    correo,
-                    fecha_nac,
+                    direccion,
                     fk_idprovincia,
-                    fk_idlocalidad,
-                    domicilio
+                    fk_idlocalidad
                 FROM clientes";
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
@@ -169,13 +167,13 @@ class Cliente
                 $entidadAux = new Cliente();
                 $entidadAux->idcliente = $fila["idcliente"];
                 $entidadAux->nombre = $fila["nombre"];
-                $entidadAux->cuit = $fila["cuit"];
+                $entidadAux->apellido = $fila["apellido"];
+                $entidadAux->documento = $fila["documento"];
+                $entidadAux->email = $fila["email"];
                 $entidadAux->telefono = $fila["telefono"];
-                $entidadAux->correo = $fila["correo"];
-                $entidadAux->fecha_nac = $fila["fecha_nac"];
+                $entidadAux->direccion = $fila["direccion"];
                 $entidadAux->fk_idprovincia = $fila["fk_idprovincia"];
                 $entidadAux->fk_idlocalidad = $fila["fk_idlocalidad"];
-                $entidadAux->domicilio = $fila["domicilio"];
                 $aResultado[] = $entidadAux;
             }
         }

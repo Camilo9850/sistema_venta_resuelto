@@ -132,14 +132,27 @@ class Usuario
     public function obtenerPorUsuario($usuario, $idusuario = "")
     {
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "SELECT idusuario,
-                        usuario,
-                        clave,
-                        nombre,
-                        apellido,
-                        correo
-                FROM usuarios
-                WHERE usuario = '$usuario' AND idusuario <> '$idusuario'";
+        
+        // Construir la consulta SQL con o sin la condición del ID
+        if ($idusuario != "") {
+            $sql = "SELECT idusuario,
+                            usuario,
+                            clave,
+                            nombre,
+                            apellido,
+                            correo
+                    FROM usuarios
+                    WHERE usuario = '$usuario' AND idusuario <> '$idusuario'";
+        } else {
+            $sql = "SELECT idusuario,
+                            usuario,
+                            clave,
+                            nombre,
+                            apellido,
+                            correo
+                    FROM usuarios
+                    WHERE usuario = '$usuario'";
+        }
 
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
@@ -163,14 +176,28 @@ class Usuario
     public function obtenerPorCorreo($correo, $idusuario = "")
     {
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "SELECT idusuario,
-                        usuario,
-                        clave,
-                        nombre,
-                        apellido,
-                        correo
-                FROM usuarios
-                WHERE correo = '$correo' AND idusuario <> '$idusuario'";
+        
+        // Construir la consulta SQL con o sin la condición del ID
+        if ($idusuario != "") {
+            $sql = "SELECT idusuario,
+                            usuario,
+                            clave,
+                            nombre,
+                            apellido,
+                            correo
+                    FROM usuarios
+                    WHERE correo = '$correo' AND idusuario <> '$idusuario'";
+        } else {
+            $sql = "SELECT idusuario,
+                            usuario,
+                            clave,
+                            nombre,
+                            apellido,
+                            correo
+                    FROM usuarios
+                    WHERE correo = '$correo'";
+        }
+        
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
         }
@@ -225,6 +252,38 @@ class Usuario
     public function verificarClave($claveIngresada, $claveEnBBDD)
     {
         return password_verify($claveIngresada, $claveEnBBDD);
+    }
+
+    public function obtenerPorUsuarioOCorreo($usuarioOCorreo)
+    {
+        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        
+        $sql = "SELECT idusuario,
+                        usuario,
+                        clave,
+                        nombre,
+                        apellido,
+                        correo
+                FROM usuarios
+                WHERE usuario = '$usuarioOCorreo' OR correo = '$usuarioOCorreo'";
+
+        if (!$resultado = $mysqli->query($sql)) {
+            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+        }
+
+        //Convierte el resultado en un array asociativo
+        if ($fila = $resultado->fetch_assoc()) {
+            $this->idusuario = $fila["idusuario"];
+            $this->usuario = $fila["usuario"];
+            $this->clave = $fila["clave"];
+            $this->nombre = $fila["nombre"];
+            $this->apellido = $fila["apellido"];
+            $this->correo = $fila["correo"];
+            return true;
+        } else {
+            return false;
+        }
+        $mysqli->close();
     }
 
 }

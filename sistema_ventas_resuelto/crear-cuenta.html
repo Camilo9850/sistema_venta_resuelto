@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Crear Cuenta - ABM Ventas</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .register-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .form-control-user {
+            font-size: 0.8rem;
+            border-radius: 10rem;
+            padding: 1.5rem 1rem;
+        }
+        .btn-user {
+            font-size: 0.8rem;
+            border-radius: 10rem;
+            padding: 0.75rem 1rem;
+        }
+        
+        .requirements {
+            font-size: 0.75rem;
+            margin-top: 10px;
+        }
+        .req-item {
+            display: flex;
+            align-items: center;
+            margin: 2px 0;
+        }
+        .req-item.valid { color: #28a745; }
+        .req-item.invalid { color: #dc3545; }
+    </style>
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block">
+                        <div class="p-5" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%), url('img/funciones.png'); background-size: cover; background-position: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center;">
+                            <div>
+                                <h3><i class="fas fa-user-plus fa-2x mb-3"></i></h3>
+                                <h4>¡Únete a ABM Ventas!</h4>
+                                <p>Gestiona tus ventas, clientes y productos de manera profesional</p>
+                                <div class="features">
+                                    <p><i class="fas fa-check"></i> Control de inventario</p>
+                                    <p><i class="fas fa-check"></i> Gestión de clientes</p>
+                                    <p><i class="fas fa-check"></i> Reportes de ventas</p>
+                                    <p><i class="fas fa-check"></i> Dashboard en tiempo real</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">🚀 Crear Nueva Cuenta</h1>
+                            </div>
+
+                            <!-- Mostrar mensajes de error o éxito -->
+                            <div id="mensaje" style="display: none;"></div>
+
+                            <form class="user register-form" id="registerForm" method="POST" action="register.php">
+                                
+                                <!-- Información Personal -->
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="txtNombre" name="txtNombre"
+                                            placeholder="Nombre *" required maxlength="50">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user" id="txtApellido" name="txtApellido"
+                                            placeholder="Apellido *" required maxlength="50">
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user" id="txtCorreo" name="txtCorreo"
+                                        placeholder="Correo Electrónico *" required maxlength="100">
+                                    <div id="emailError" class="text-danger" style="font-size: 0.75rem; margin-top: 5px; display: none;"></div>
+                                </div>
+
+                                <!-- Usuario -->
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="txtUsuario" name="txtUsuario"
+                                        placeholder="Nombre de Usuario *" required maxlength="30" pattern="[a-zA-Z0-9_]+" 
+                                        title="Solo letras, números y guión bajo">
+                                    <div id="usuarioError" class="text-danger" style="font-size: 0.75rem; margin-top: 5px; display: none;"></div>
+                                </div>
+
+                                <!-- Contraseñas -->
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user" id="txtClave" name="txtClave"
+                                            placeholder="Contraseña *" required minlength="4" maxlength="100">
+                                        
+                                        <!-- Requisitos simples de contraseña -->
+                                        <div class="requirements" id="passwordRequirements">
+                                            <div class="req-item" id="req-length">
+                                                <i class="fas fa-times"></i> <span>Mínimo 4 caracteres</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control form-control-user" id="txtClaveConfirm" name="txtClaveConfirm"
+                                            placeholder="Confirmar Contraseña *" required>
+                                        <div id="passwordMatchError" class="text-danger" style="font-size: 0.75rem; margin-top: 5px; display: none;"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Términos y condiciones -->
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox small">
+                                        <input type="checkbox" class="custom-control-input" id="terminos" name="terminos" required>
+                                        <label class="custom-control-label" for="terminos">
+                                            Acepto los <a href="#" data-toggle="modal" data-target="#modalTerminos">Términos y Condiciones</a> 
+                                            y la <a href="#" data-toggle="modal" data-target="#modalPrivacidad">Política de Privacidad</a>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Botón de registro -->
+                                <button type="submit" class="btn btn-primary btn-user btn-block" id="btnRegistrar">
+                                    <i class="fas fa-user-plus"></i> Crear Cuenta
+                                </button>
+
+                                <hr>
+
+                                <!-- Enlaces adicionales -->
+                                <div class="text-center">
+                                    <a class="small" href="forgot-password.html">¿Olvidaste tu contraseña?</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" href="login.php">¿Ya tienes cuenta? ¡Inicia Sesión!</a>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal Términos y Condiciones -->
+    <div class="modal fade" id="modalTerminos" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">📋 Términos y Condiciones</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>1. Aceptación de los Términos</h6>
+                    <p>Al crear una cuenta en ABM Ventas, usted acepta cumplir con estos términos y condiciones.</p>
+                    
+                    <h6>2. Uso del Servicio</h6>
+                    <p>Este sistema está diseñado para la gestión de ventas, inventario y clientes. El uso debe ser profesional y ético.</p>
+                    
+                    <h6>3. Responsabilidades del Usuario</h6>
+                    <ul>
+                        <li>Mantener la confidencialidad de su cuenta</li>
+                        <li>Proporcionar información veraz y actualizada</li>
+                        <li>No compartir credenciales con terceros</li>
+                        <li>Usar el sistema de manera responsable</li>
+                    </ul>
+                    
+                    <h6>4. Protección de Datos</h6>
+                    <p>Nos comprometemos a proteger su información personal según las mejores prácticas de seguridad.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Política de Privacidad -->
+    <div class="modal fade" id="modalPrivacidad" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">🔒 Política de Privacidad</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Recopilación de Información</h6>
+                    <p>Recopilamos información necesaria para el funcionamiento del sistema de ventas:</p>
+                    <ul>
+                        <li>Datos de contacto (nombre, email)</li>
+                        <li>Información de acceso (usuario, contraseña encriptada)</li>
+                        <li>Datos de uso del sistema</li>
+                    </ul>
+                    
+                    <h6>Uso de la Información</h6>
+                    <p>Utilizamos su información para:</p>
+                    <ul>
+                        <li>Proporcionar acceso al sistema</li>
+                        <li>Mejorar nuestros servicios</li>
+                        <li>Comunicaciones importantes del sistema</li>
+                    </ul>
+                    
+                    <h6>Seguridad</h6>
+                    <p>Implementamos medidas de seguridad para proteger su información personal y empresarial.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            
+            // Validación de contraseña en tiempo real
+            $('#txtClave').on('input', function() {
+                const password = $(this).val();
+                validatePassword(password);
+            });
+
+            // Validación de confirmación de contraseña
+            $('#txtClaveConfirm').on('input', function() {
+                const password = $('#txtClave').val();
+                const confirmPassword = $(this).val();
+                
+                if (password !== confirmPassword) {
+                    $('#passwordMatchError').text('Las contraseñas no coinciden').show();
+                } else {
+                    $('#passwordMatchError').hide();
+                }
+            });
+
+            // Validación de email
+            $('#txtCorreo').on('blur', function() {
+                const email = $(this).val();
+                if (email) {
+                    // Aquí puedes agregar validación AJAX para verificar si el email ya existe
+                    validateEmail(email);
+                }
+            });
+
+            // Validación de usuario
+            $('#txtUsuario').on('blur', function() {
+                const usuario = $(this).val();
+                if (usuario) {
+                    // Aquí puedes agregar validación AJAX para verificar si el usuario ya existe
+                    validateUsuario(usuario);
+                }
+            });
+
+            // Envío del formulario
+            $('#registerForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateForm()) {
+                    $('#btnRegistrar').html('<i class="fas fa-spinner fa-spin"></i> Creando cuenta...').prop('disabled', true);
+                    
+                    // Enviar por AJAX o submit normal
+                    this.submit(); // Envío normal del formulario
+                }
+            });
+
+        });
+
+        function validatePassword(password) {
+            const requirements = {
+                length: password.length >= 4
+            };
+
+            // Actualizar indicador visual
+            updateRequirement('req-length', requirements.length);
+
+            return requirements.length;
+        }
+
+        function updateRequirement(id, isValid) {
+            const element = $('#' + id);
+            if (isValid) {
+                element.removeClass('invalid').addClass('valid');
+                element.find('i').removeClass('fa-times').addClass('fa-check');
+            } else {
+                element.removeClass('valid').addClass('invalid');
+                element.find('i').removeClass('fa-check').addClass('fa-times');
+            }
+        }
+
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                $('#emailError').text('Formato de email inválido').show();
+                return false;
+            } else {
+                $('#emailError').hide();
+                return true;
+            }
+        }
+
+        function validateUsuario(usuario) {
+            const usuarioRegex = /^[a-zA-Z0-9_]+$/;
+            if (!usuarioRegex.test(usuario)) {
+                $('#usuarioError').text('Solo letras, números y guión bajo permitidos').show();
+                return false;
+            } else if (usuario.length < 3) {
+                $('#usuarioError').text('Mínimo 3 caracteres').show();
+                return false;
+            } else {
+                $('#usuarioError').hide();
+                return true;
+            }
+        }
+
+        function validateForm() {
+            const password = $('#txtClave').val();
+            const confirmPassword = $('#txtClaveConfirm').val();
+            const email = $('#txtCorreo').val();
+            const usuario = $('#txtUsuario').val();
+            const terminos = $('#terminos').is(':checked');
+
+            let valid = true;
+
+            if (password.length < 4) {
+                showMessage('La contraseña debe tener al menos 4 caracteres', 'error');
+                valid = false;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('Las contraseñas no coinciden', 'error');
+                valid = false;
+            }
+
+            if (!validateEmail(email)) {
+                showMessage('Email inválido', 'error');
+                valid = false;
+            }
+
+            if (!validateUsuario(usuario)) {
+                showMessage('Nombre de usuario inválido', 'error');
+                valid = false;
+            }
+
+            if (!terminos) {
+                showMessage('Debe aceptar los términos y condiciones', 'error');
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        function showMessage(message, type) {
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            
+            $('#mensaje').html(`
+                <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                    <i class="fas ${icon}"></i> ${message}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            `).show();
+
+            // Auto-ocultar después de 5 segundos
+            setTimeout(() => {
+                $('#mensaje .alert').alert('close');
+            }, 5000);
+        }
+    </script>
+
+</body>
+
+</html>

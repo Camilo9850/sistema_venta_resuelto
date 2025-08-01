@@ -2,7 +2,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="far fa-credit-card"></i>
         </div>
@@ -75,6 +75,24 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
+      
+      <!-- Nav Item - Pagos Nequi -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagos" aria-expanded="true" aria-controls="collapsePagos">
+          <i class="fas fa-fw fa-credit-card"></i>
+          <span>Pagos Nequi</span>
+        </a>
+        <div id="collapsePagos" class="collapse" aria-labelledby="headingPagos" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="pagos-nequi.php">💳 Sistema de Pagos</a>
+            <a class="collapse-item" href="prueba_millon_notificaciones.php">💰 Prueba 1 Millón</a>
+            <a class="collapse-item" href="nequi_simulador_realista.php">🚀 Simulador Realista</a>
+            <a class="collapse-item" href="simulador_nequi_avanzado.php">🔗 Simulador Avanzado</a>
+            <a class="collapse-item" href="simulador_nequi_ficcion.php">🎭 Simulador Básico</a>
+          </div>
+        </div>
+      </li>
+      
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsuario" aria-expanded="true" aria-controls="collapseUsuario">
           <i class="fas fa-fw fa-users"></i>

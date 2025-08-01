@@ -21,22 +21,24 @@ include_once("header.php");
             </div>
           <table class="table table-hover border">
             <tr>
-                <th>CUIT</th>
-                <th>Nombre</th>
-                <th>Fecha nac.</th>
+                <th>Documento</th>
+                <th>Nombre Completo</th>
                 <th>Teléfono</th>
-                <th>Correo</th>
+                <th>Email</th>
+                <th>Dirección</th>
                 <th>Acciones</th>
             </tr>
             <?php foreach ($aClientes as $cliente): ?>
               <tr>
-                  <td><?php echo $cliente->cuit; ?></td>
-                  <td><?php echo $cliente->nombre; ?></td>
-                  <td><?php echo date_format(date_create($cliente->fecha_nac), "d/m/Y"); ?></td>
+                  <td><?php echo $cliente->documento; ?></td>
+                  <td><?php echo $cliente->nombre . ' ' . $cliente->apellido; ?></td>
                   <td><?php echo $cliente->telefono; ?></td>
-                  <td><?php echo $cliente->correo; ?></td>
+                  <td><?php echo $cliente->email; ?></td>
+                  <td><?php echo substr($cliente->direccion, 0, 50) . (strlen($cliente->direccion) > 50 ? '...' : ''); ?></td>
                   <td style="width: 110px;">
-                      <a href="cliente-formulario.php?id=<?php echo $cliente->idcliente; ?>"><i class="fas fa-search"></i></a>   
+                      <a href="cliente-formulario.php?id=<?php echo $cliente->idcliente; ?>" class="btn btn-sm btn-outline-primary" title="Editar">
+                        <i class="fas fa-edit"></i>
+                      </a>   
                   </td>
               </tr>
             <?php endforeach; ?>

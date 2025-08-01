@@ -27,7 +27,7 @@ class TipoProducto {
         //Instancia la clase mysqli con el constructor parametrizado
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         //Arma la query
-        $sql = "INSERT INTO tipo_productos (
+        $sql = "INSERT INTO tipoproductos (
                     nombre
                 ) VALUES (
                     '$this->nombre'
@@ -45,7 +45,7 @@ class TipoProducto {
     public function actualizar(){
 
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "UPDATE tipo_productos SET
+        $sql = "UPDATE tipoproductos SET
                 nombre = '$this->nombre'
                 WHERE idtipoproducto = " . $this->idtipoproducto;
           
@@ -57,7 +57,7 @@ class TipoProducto {
 
     public function eliminar(){
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        $sql = "DELETE FROM tipo_productos WHERE idtipoproducto = " . $this->idtipoproducto;
+        $sql = "DELETE FROM tipoproductos WHERE idtipoproducto = " . $this->idtipoproducto;
         //Ejecuta la query
         if (!$mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
@@ -69,7 +69,7 @@ class TipoProducto {
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $sql = "SELECT idtipoproducto, 
                         nombre
-                FROM tipo_productos 
+                FROM tipoproductos 
                 WHERE idtipoproducto = " . $this->idtipoproducto;
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
@@ -88,7 +88,7 @@ class TipoProducto {
         $sql = "SELECT 
                     idtipoproducto, 
                     nombre 
-                FROM tipo_productos";
+                FROM tipoproductos";
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
         }

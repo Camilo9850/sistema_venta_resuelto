@@ -1,0 +1,61 @@
+DirectoryIndex inicio.php index.php index.html
+
+# Redirecciones y configuración
+RewriteEngine On
+
+# Limpiar URLs con caracteres extraños
+RewriteCond %{THE_REQUEST} \s[^?]*\?[^\s]*\s [NC]
+RewriteRule ^(.*)$ /$1? [R=301,L]
+
+# Redirigir index.html a inicio.php
+RewriteRule ^index\.html$ /inicio.php [R=301,L]
+
+# Redirigir raíz a inicio.php si no hay sesión
+RewriteRule ^$ /inicio.php [L]
+
+# Manejar URLs malformadas
+RewriteCond %{REQUEST_URI} %[0-9A-Fa-f]{2}
+RewriteRule ^(.*)$ /inicio.php [R=301,L]
+
+# Configuraciones de seguridad
+<Files ".htaccess">
+order allow,deny
+deny from all
+</Files>
+
+# Proteger archivos de configuración
+<FilesMatch "^(config\.php|\.env)$">
+order allow,deny
+deny from all
+</FilesMatch>
+
+# Configurar tipos MIME
+AddType text/css .css
+AddType application/javascript .js
+
+# Comprimir archivos para mejor rendimiento
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Cache headers para recursos estáticos
+<IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/ico "access plus 1 year"
+    ExpiresByType image/icon "access plus 1 year"
+    ExpiresByType text/html "access plus 1 hour"
+</IfModule>

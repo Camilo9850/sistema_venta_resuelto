@@ -16,6 +16,7 @@ class Venta {
         $this->cantidad = 0;
         $this->preciounitario = 0.0;
         $this->total = 0.0;
+        $this->fecha = date('Y-m-d H:i:s'); // Asignar fecha actual por defecto
     }
 
     public function __get($atributo) {
@@ -32,9 +33,24 @@ class Venta {
         $this->idventa = isset($request["id"])? $request["id"] : "";
         $this->fk_idcliente = isset($request["lstCliente"])? $request["lstCliente"] : "";
         $this->fk_idproducto = isset($request["lstProducto"])? $request["lstProducto"]: "";
+        
+        // Manejar la fecha de forma más robusta
         if(isset($request["txtAnio"]) && isset($request["txtMes"]) && isset($request["txtDia"])){
-            $this->fecha = $request["txtAnio"] . "-" .  $request["txtMes"] . "-" .  $request["txtDia"] . " " . $request["txtHora"];
+            $anio = $request["txtAnio"];
+            $mes = str_pad($request["txtMes"], 2, '0', STR_PAD_LEFT);
+            $dia = str_pad($request["txtDia"], 2, '0', STR_PAD_LEFT);
+            $hora = isset($request["txtHora"]) ? $request["txtHora"] : "00:00";
+            
+            // Validar que los valores no estén vacíos
+            if (!empty($anio) && !empty($mes) && !empty($dia)) {
+                $this->fecha = $anio . "-" . $mes . "-" . $dia . " " . $hora . ":00";
+            } else {
+                $this->fecha = date('Y-m-d H:i:s'); // Usar fecha actual si los campos están vacíos
+            }
+        } else {
+            $this->fecha = date('Y-m-d H:i:s'); // Usar fecha actual si no se enviaron los campos
         }
+        
         $this->cantidad = isset($request["txtCantidad"])? $request["txtCantidad"] : 0;
         $this->preciounitario = isset($request["txtPrecioUni"])? $request["txtPrecioUni"] : 0.0;
         $this->total = $this->preciounitario * $this->cantidad;
@@ -43,7 +59,18 @@ class Venta {
     public function insertar(){
         //Instancia la clase mysqli con el constructor parametrizado
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
-        //Arma la query
+        
+        // Verificar conexión
+        if ($mysqli->connect_error) {
+            die("Conexión fallida: " . $mysqli->connect_error);
+        }
+        
+        // Asignar fecha actual si no está definida o está vacía
+        if (empty($this->fecha)) {
+            $this->fecha = date('Y-m-d H:i:s');
+        }
+        
+        // Usar prepared statement para HeidiSQL
         $sql = "INSERT INTO ventas (
                     fk_idcliente, 
                     fk_idproducto, 
@@ -51,22 +78,33 @@ class Venta {
                     cantidad,
                     preciounitario,
                     total
-                ) VALUES (
-                    $this->fk_idcliente, 
-                    $this->fk_idproducto,
-                    '$this->fecha', 
-                    $this->cantidad,
-                    $this->preciounitario,
-                    $this->total
-                );";
-        //Ejecuta la query
-        if (!$mysqli->query($sql)) {
-            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+                ) VALUES (?, ?, ?, ?, ?, ?)";
+                
+        $stmt = $mysqli->prepare($sql);
+        if (!$stmt) {
+            die("Error en prepare: " . $mysqli->error);
         }
+        
+        $stmt->bind_param("iisidd", 
+            $this->fk_idcliente, 
+            $this->fk_idproducto,
+            $this->fecha, 
+            $this->cantidad,
+            $this->preciounitario,
+            $this->total
+        );
+        
+        if (!$stmt->execute()) {
+            die("Error en execute: " . $stmt->error);
+        }
+        
         //Obtiene el id generado por la inserción
         $this->idventa = $mysqli->insert_id;
-        //Cierra la conexión
+        
+        $stmt->close();
         $mysqli->close();
+        
+        return true;
     }
 
     public function actualizar(){
@@ -254,6 +292,23 @@ class Venta {
     public function obtenerFacturacionPorPeriodo($fechaDesde, $fechaHasta){
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
         $sql = "SELECT SUM(total) AS sumarizacion FROM ventas WHERE fecha >= '$fechaDesde' AND fecha <= '$fechaHasta 23:59:59';";
+
+        if (!$resultado = $mysqli->query($sql)) {
+            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+        }
+        $sumarizacion = 0;
+        //Convierte el resultado en un array asociativo
+        if ($fila = $resultado->fetch_assoc()) {
+            $sumarizacion = $fila["sumarizacion"] > 0 ? $fila["sumarizacion"] : 0;
+
+        }
+        $mysqli->close();
+        return $sumarizacion;
+    }
+
+    public function obtenerFacturacionTotal(){
+        $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE, Config::BBDD_PORT);
+        $sql = "SELECT SUM(total) AS sumarizacion FROM ventas;";
 
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
