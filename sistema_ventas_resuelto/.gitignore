@@ -1,0 +1,27 @@
+# Ignorar directorio vendor (librerías de Composer)
+vendor/
+
+# Ignorar archivos de configuración local
+config.php
+
+# Ignorar archivos temporales
+*.tmp
+*.log
+
+# Ignorar archivos de imágenes subidas (solo como ejemplo)
+files/*.jpg
+files/*.jpeg
+files/*.png
+files/*.gif
+
+# Ignorar archivos de respaldo
+*.bak
+*.backup
+
+# Ignorar archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Cache y temporales
+cache/
+tmp/
